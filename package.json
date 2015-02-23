@@ -1,0 +1,19 @@
+{
+  "name": "generator-app-gen",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "keywords": [
+    "yeoman-generator"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Tarcísio Abadio de Magalhães Júnior",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^0.9.0",
+    "merge": "^1.2.0",
+    "yeoman-generator": "^0.18.9"
+  }
+}
