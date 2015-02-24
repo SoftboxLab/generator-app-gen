@@ -3,6 +3,7 @@ var fs    = require('fs');
 var async = require('async');
 var path  = require('path');
 var chalk = require('chalk');
+var merge = require('merge');
 
 var plugins   = {};
 var driversIn = {};
@@ -51,6 +52,7 @@ module.exports = generators.Base.extend({
         }
 
         this.appgen = require(appgenFile);
+        this.values = {"x" : "y"};
     },
 
     _selectArtifact: function(next) {
@@ -88,14 +90,36 @@ module.exports = generators.Base.extend({
         next(null);
     },
 
-    _loadDriver: function(next) {
-        this.driverIn = driversIn[this.artifact.in.driver];
+    _readInputs: function(driverIn, next) {
+        if (!driverIn) {
+            next('Driver not supplied!', null);
+            return;
+        }
 
-        this.driverIn.read(this, this.artifact.in.config || {}, function(err, values) {
-            this.values = values;
+        this.driverIn = driversIn[driverIn.driver];
+
+        if (!this.driverIn) {
+            next('Driver not found: ' + driverIn.driver, null);
+            return;
+        }
+
+        this.driverIn.read(this, driverIn.config || {}, function(err, values) {
+            this.values = merge(this.values || {} , values || {});
 
             next(null);
         }.bind(this));
+    },
+
+    _loadDriver: function(next) {
+        if (this.artifact.in.constructor === Array) {
+            async.mapSeries(this.artifact.in, this._readInputs.bind(this), function(err, result) {
+                next(null);
+            });
+
+            return;
+        }
+
+        this._readInputs(this.artifact.in, next);
     },
 
     prompting: function() {
@@ -110,8 +134,10 @@ module.exports = generators.Base.extend({
             this._loadPlugin.bind(this),
             this._loadDriver.bind(this)
         ], function(err, result) {
+            //console.dir(this.values);
+
             done();
-        });
+        }.bind(this));
     },
 
     writing: function() {

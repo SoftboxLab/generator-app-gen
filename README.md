@@ -39,6 +39,7 @@ The `drivers-in` are responsibles to read the configurations for `plugins`, mean
 
 * [`JSON`](#driver-in-json)
 * [`PROMPT`](#driver-in-prompt)
+* [`MYSQL`](#driver-in-mysql)
 
 ### File Structure - app-gen.json
 
@@ -117,6 +118,22 @@ Request configuration with prompt api (see inquirer)
 ...
 "in": {
     "driver": "PROMPT", # Driver-in type
+    "config": [{
+        "message": "Supply the message", # Message
+        "name" : "message" # Config property
+    }]
+}
+...
+```
+
+<a name="driver-in-mysql" />
+### MYSQL
+Request configuration from database.
+
+```js
+...
+"in": {
+    "driver": "MYSQL", # Driver-in type
     "config": [{
         "message": "Supply the message", # Message
         "name" : "message" # Config property

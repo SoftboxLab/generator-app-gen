@@ -1,3 +1,5 @@
+var _ = require('lodash');
+
 module.exports = {
 
     name: 'FILE',
@@ -17,10 +19,12 @@ module.exports = {
             tplPath = generator.destinationRoot() + '/' + template;
         }
 
+        console.log('>>>', _.template(out)(generator.values));
+
         generator.fs.copyTpl(
             tplPath,
 
-            generator.destinationPath(out),
+            generator.destinationPath(_.template(out)(generator.values)),
 
             context);
     }
