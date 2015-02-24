@@ -2,6 +2,7 @@ var async = require('async');
 var merge = require('merge');
 
 function prompt(generator, config, next) {
+    generator.log();
     generator.prompt({
         type: config.type || 'input',
         name: config.name,

@@ -1,17 +1,42 @@
 var generators = require('yeoman-generator');
-var fs = require('fs');
-var Q  = require('q');
+var fs    = require('fs');
 var async = require('async');
+var path  = require('path');
+var chalk = require('chalk');
 
-var plugins = {
-    'FILE': require('../../plugins/file.js'),
-    'OUT': require('../../plugins/out.js')
-};
+var plugins   = {};
+var driversIn = {};
 
-var driversIn = {
-    'JSON': require('../../drivers-in/json.js'),
-    'PROMPT': require('../../drivers-in/prompt.js')
-};
+function loadModules(dir, cache) {
+    var dir = path.join(__dirname, dir);
+
+    fs.readdirSync(dir).forEach(function(file) {
+        var file = dir + file;
+
+        if (!fs.statSync(file).isFile()) {
+            return;
+        }
+
+        var module = require(file);
+
+        cache[module.name] = module;
+    });
+}
+
+loadModules('../../plugins/'   , plugins);
+loadModules('../../drivers-in/', driversIn);
+
+console.log('\n' + chalk.yellow.bold(fs.readFileSync(path.join(__dirname, '../../logo.txt'), 'utf8')));
+
+console.log('\n' + chalk.white.bold('## Plugins ##'));
+Object.keys(plugins).forEach(function(elem) {
+    console.log('   ' + chalk.green.bold('> ' + elem));
+});
+
+console.log('\n' + chalk.white.bold('## In Drivers ##'));
+Object.keys(driversIn).forEach(function(elem) {
+    console.log('   ' + chalk.cyan.bold('> ' + elem));
+});
 
 var APPGEN_CONFIG = 'app-gen.json';
 
@@ -29,7 +54,7 @@ module.exports = generators.Base.extend({
     },
 
     _selectArtifact: function(next) {
-        console.log(next);
+        this.log();
 
         this.prompt({
             type: 'list',
@@ -90,6 +115,8 @@ module.exports = generators.Base.extend({
     },
 
     writing: function() {
+        this.log();
+
         this.plugin.write(this, this.artifact.template, this.artifact.out, this.values);
     }
 });
