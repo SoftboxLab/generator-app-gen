@@ -19,7 +19,7 @@ Create a file `app-gen.json` (see above for more details):
 vi app-gen.json
 ```
 
-Run `yo app-gen` for start code generation.
+Run `yo app-gen` to start code generation.
 
 ## Configuration (app-gen.json)
 
@@ -108,3 +108,21 @@ Read the static supplied JSON config for template bindings.
 }
 ...
 ```
+
+<a name="driver-in-prompt" />
+### PROMPT
+Request configuration with prompt api (see inquirer)
+
+```js
+...
+"in": {
+    "driver": "PROMPT", # Driver-in type
+    "config": [{
+        "message": "Supply the message", # Message
+        "name" : "message" # Config property
+    }]
+}
+...
+```
+
+## Examples
