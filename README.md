@@ -40,7 +40,7 @@ The `drivers-in` are responsibles to read the configurations for `plugins`, mean
 * [`JSON`](#driver-in-json)
 * [`PROMPT`](#driver-in-prompt)
 
-### app-gen.json - File Structure
+### File Structure - app-gen.json
 
 ```js
 
@@ -48,26 +48,19 @@ The `drivers-in` are responsibles to read the configurations for `plugins`, mean
     "name": "Project Name",
     "artifacts": {
         "Artifact ID - 1": {
-            "type": "FILE", # Plugin Id. eg.: FILE
-            "template": "./templates/sample1.js", # Template file
-            "out" : "./out/sample-out.js", # Outpout file name
-            "in": {
+            "type": "FILE", # Plugin Id. eg.: FILE - required
+            "template": "./templates/sample1.js", # Template file - required
+            "out" : "./out/sample-out.js", # Outpout file name - required
+            "in": { # required
                 "driver": "JSON", # Driver-in type
                 "config": { # Driver-in configs
                     "message": "Hello World!"
                 }
             }
         },
-
-        "Artifact ID - 2": {
-            ...
-        },
-
+        "Artifact ID - 2": { ... },
         ...
-
-        "Artifact ID - n": {
-            ...
-        }
+        "Artifact ID - n": { ... }
     }
 }
 
@@ -77,3 +70,41 @@ The `drivers-in` are responsibles to read the configurations for `plugins`, mean
 
 <a name="plugin-file" />
 ### FILE
+Writes the rendered template at output file specified.
+```js
+{
+    "type": "FILE", # Plugin Id.
+    "template": "./templates/sample1.js", # Template file - required
+    "out" : "./out/sample-out.js", # Outpout file name - required
+    "in": { ... }
+    }
+}
+```
+
+<a name="plugin-out" />
+### OUT
+Writes the rendered template at console output.
+```js
+{
+    "type": "OUT", # Plugin Id.
+    "template": "./templates/sample1.js", # Template file - required
+    "in": { ... }
+    }
+}
+```
+
+## Drivers-in
+<a name="driver-in-json" />
+### JSON
+Read the static supplied JSON config for template bindings.
+
+```js
+...
+"in": { # required
+    "driver": "JSON", # Driver-in type
+    "config": { # Driver-in configs
+        "message": "Hello World!"
+    }
+}
+...
+```
