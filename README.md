@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/tarcisiojr/generator-app-gen.svg)](https://travis-ci.org/tarcisiojr/generator-app-gen)
+
 # generator-app-gen
 
 Customizable code generator based on Yeoman Generator.
