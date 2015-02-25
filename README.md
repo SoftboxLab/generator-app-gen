@@ -38,7 +38,7 @@ The `drivers-in` are responsibles to read the configurations for `plugins`, mean
 ### Plugins
 
 * [`FILE`](#plugin-file)
-* [`OUT`](#plugin-out)
+* [`CONSOLE`](#plugin-console)
 
 
 ### Drivers-in
@@ -88,12 +88,12 @@ Writes the rendered template at output file specified.
 }
 ```
 
-<a name="plugin-out" />
-### OUT
+<a name="plugin-console" />
+### CONSOLE
 Writes the rendered template at console output.
 ```js
 {
-    "type": "OUT", # Plugin Id.
+    "type": "CONSOLE", # Plugin Id.
     "template": "./templates/sample1.js", # Template file - required
     "in": { ... }
     }
@@ -140,14 +140,13 @@ Request configuration from database.
 ...
 "in": {
     "driver": "MYSQL", # Driver-in type
-    "config": [{
-        "message": "Supply the message", # Message
-        "name" : "message" # Config property
-    }]
+    "config": {
+        "host": "localhost", # mysql host
+        "port" : "3306", # mysql port
+        "user" : "root", # user to connect
+        "password": "root", # pwd to connect
+        "query": "SELECT NULL" # query that will be executed
+    }
 }
 ...
 ```
-
-## Examples
-
-Under construction...

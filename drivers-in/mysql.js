@@ -7,6 +7,7 @@ function query(config, callback) {
     var connection = mysql.createConnection({
         host: config.host || 'localhost',
         user: config.user || 'root',
+        port: config.port || 3306,
         password: config.password || 'root',
         database: config.database || null
     });
