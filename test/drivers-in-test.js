@@ -11,12 +11,17 @@ describe('Drivers-In', function() {
         });
 
         describe('#read', function() {
-            it('should return the same supplied object on config argument', function() {
+            it('should return the same supplied object on config argument', function(done) {
                 var config = {
                     foo: 'bar'
                 };
 
-                assert.equal(config, json.read(null, config, ));
+                config, json.read(null, config, function(err, cfg) {
+                    assert.equal(null, err);
+                    assert.equal(config, cfg);
+
+                    done();
+                });
             });
         });
     });
