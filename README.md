@@ -4,6 +4,8 @@
 [![npm version](https://badge.fury.io/js/generator-app-gen.svg)](http://badge.fury.io/js/generator-app-gen)
 [![Codacy Badge](https://www.codacy.com/project/badge/8ccf53d479d14691ae6dd9693c7298f8)](https://www.codacy.com/public/tarcisiojunior/generator-app-gen)
 
+[![NPM](https://nodei.co/npm/generator-app-gen.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/generator-app-gen/)
+
 Customizable code generator based on Yeoman Generator.
 
 ## Usage
