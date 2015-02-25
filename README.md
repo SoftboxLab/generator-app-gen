@@ -20,16 +20,16 @@ Go into your project directory:
 cd my-project
 ```
 
-Create a file `app-gen.json` (see above for more details):
+Create a file `app-gen.[json|js]` (see above for more details):
 ```
 vi app-gen.json
 ```
 
 Run `yo app-gen` to start code generation.
 
-## Configuration (app-gen.json)
+## Configuration (app-gen.[json|js])
 
-The `app-gen.json` file contains information about code generation for your project. In this file going to describe the configurations for artifacts code generation.
+The `app-gen.[json|js]` file contains information about code generation for your project. In this file going to describe the configurations for artifacts code generation.
 
 The code generation is performed by two components: `plugins` and `drivers-in`.
 
