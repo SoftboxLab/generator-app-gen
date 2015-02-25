@@ -80,7 +80,7 @@ describe('Drivers-In', function() {
                 };
 
                 var generator = {values: {foo: 'bar'}};
-                //
+
                 mysql.read(generator, config, function(err, values) {
                     assert.strictEqual(null, err);
                     assert.notEqual(null, values);
@@ -100,7 +100,7 @@ describe('Drivers-In', function() {
                 //
                 mysql.read(generator, config, function(err, values) {
                     assert.strictEqual(null, values);
-                    assert.equal('err', err);                    
+                    assert.equal('err', err);
 
                     done();
                 });

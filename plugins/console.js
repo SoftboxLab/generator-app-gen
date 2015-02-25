@@ -2,14 +2,14 @@ var _ = require('lodash');
 
 module.exports = {
 
-    name: 'FILE',
+    name: 'CONSOLE',
 
     isValid: function(config) {
-        return !!(config && config.out && config.template);
+        return !!(config && config.template);
     },
 
     help: function() {
-        return '{ type: "FILE", template: "template file path", out: "file path to output" }';
+        return '{ type: "CONSOLE", template: "template file path" }';
     },
 
     write: function(generator, template, out, context) {
@@ -19,11 +19,8 @@ module.exports = {
             tplPath = generator.destinationRoot() + '/' + template;
         }
 
-        generator.fs.copyTpl(
-            tplPath,
-
-            generator.destinationPath(_.template(out)(generator.values)),
-
-            context);
+        generator.log('------------- OUT -------------');
+        generator.log(_.template(generator.fs.read(tplPath))(context));
+        generator.log('------------- END -------------');
     }
 };

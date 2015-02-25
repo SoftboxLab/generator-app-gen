@@ -60,6 +60,12 @@ module.exports = generators.Base.extend({
 
         this.plugin = plugins[this.artifact.type];
 
+        if (!this.plugin) {
+            this.log('The plugin "' + this.artifact.type + '" not exists or not loaded!');
+            process.exit(1);
+            return;
+        }
+
         if (this.plugin.isValid && this.plugin.isValid(this.artifact) !== true) {
             this.log('The supplied configs for artifact ' + artifactName + ' are incomplete.\n');
             this.log('Type: ' + plugin.name + '.\n');
