@@ -1,6 +1,7 @@
 # generator-app-gen
 [![Build Status](https://travis-ci.org/tarcisiojr/generator-app-gen.svg)](https://travis-ci.org/tarcisiojr/generator-app-gen)
 [![Coverage Status](https://coveralls.io/repos/tarcisiojr/generator-app-gen/badge.svg)](https://coveralls.io/r/tarcisiojr/generator-app-gen)
+[![npm version](https://badge.fury.io/js/generator-app-gen.svg)](http://badge.fury.io/js/generator-app-gen)
 
 Customizable code generator based on Yeoman Generator.
 
