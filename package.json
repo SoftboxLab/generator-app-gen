@@ -18,7 +18,7 @@
     "yeoman-generator"
   ],
   "scripts": {
-    "test": "mocha --reporter spec"
+    "test": "mocha --reporter spec --require blanket -R mocha-lcov-reporter | ./node_modules/coveralls/bin/coveralls.js"
   },
   "author": "Tarcísio Abadio de Magalhães Júnior",
   "license": "ISC",
@@ -32,6 +32,23 @@
     "yeoman-generator": "^0.18.9"
   },
   "devDependencies": {
-    "mocha": "^2.1.0"
+    "blanket": "^1.1.6",
+    "coveralls": "^2.11.2",
+    "mocha": "^2.1.0",
+    "mocha-lcov-reporter": "0.0.1",
+    "travis-cov": "^0.2.5"
+  },
+  "config": {
+    "blanket": {
+      "pattern": [
+        "drivers-in",
+        "plugins",
+        "generators"
+      ],
+      "data-cover-never": "node_modules"
+    },
+    "travis-cov": {
+      "threshold": 70
+    }
   }
 }

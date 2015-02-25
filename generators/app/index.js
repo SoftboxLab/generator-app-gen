@@ -24,21 +24,6 @@ function loadModules(dir, cache) {
     });
 }
 
-loadModules('../../plugins/'   , plugins);
-loadModules('../../drivers-in/', driversIn);
-
-console.log('\n' + chalk.yellow.bold(fs.readFileSync(path.join(__dirname, '../../logo.txt'), 'utf8')));
-
-console.log('\n' + chalk.white.bold('## Plugins ##'));
-Object.keys(plugins).forEach(function(elem) {
-    console.log('   ' + chalk.green.bold('> ' + elem));
-});
-
-console.log('\n' + chalk.white.bold('## In Drivers ##'));
-Object.keys(driversIn).forEach(function(elem) {
-    console.log('   ' + chalk.cyan.bold('> ' + elem));
-});
-
 var APPGEN_CONFIG = 'app-gen.json';
 
 module.exports = generators.Base.extend({
@@ -122,9 +107,26 @@ module.exports = generators.Base.extend({
         this._readInputs(this.artifact.in, next);
     },
 
-    prompting: function() {
-        this._load();
+    initializing: function() {
+        loadModules('../../plugins/'   , plugins);
+        loadModules('../../drivers-in/', driversIn);
 
+        this.log('\n' + chalk.yellow.bold(fs.readFileSync(path.join(__dirname, '../../logo.txt'), 'utf8')));
+
+        this.log('\n' + chalk.white.bold('## Plugins ##'));
+        Object.keys(plugins).forEach(function(elem) {
+            this.log('   ' + chalk.green.bold('> ' + elem));
+        }.bind(this));
+
+        this.log('\n' + chalk.white.bold('## In Drivers ##'));
+        Object.keys(driversIn).forEach(function(elem) {
+            this.log('   ' + chalk.cyan.bold('> ' + elem));
+        }.bind(this));
+
+        this._load();
+    },
+
+    prompting: function() {
         var done = this.async();
 
         var that = this;

@@ -1,6 +1,8 @@
 var assert = require("assert");
 
-var json = require("../drivers-in/json.js");
+var json   = require("../drivers-in/json.js");
+var mysql  = require("../drivers-in/mysql.js");
+var prompt = require("../drivers-in/prompt.js");
 
 describe('Drivers-In', function() {
     describe('JSON', function() {
