@@ -24,20 +24,29 @@ function loadModules(moduleDir, cache) {
     });
 }
 
-var APPGEN_CONFIG = 'app-gen.json';
+var APPGEN_CONFIG = 'app-gen';
 
 module.exports = generators.Base.extend({
-    _load: function() {
-        var appgenFile = this.destinationRoot() + '/' + APPGEN_CONFIG;
+    _getAppGenFile: function(ext) {
+        var appgenFile = this.destinationRoot() + '/' + APPGEN_CONFIG + ext;
 
         if (!fs.existsSync(appgenFile)) {
-            this.log('The configuration file \'' + APPGEN_CONFIG + '\' does not exists!');
+            return false;
+        }
+
+        return appgenFile
+    },
+
+    _load: function() {
+        var appgenFile = this._getAppGenFile('.json') || this._getAppGenFile('.js');
+
+        if (appgenFile === false) {
+            this.log('The configuration file \'' + APPGEN_CONFIG + '.[json|js]\' does not exists!');
             process.exit(1);
             return;
         }
 
         this.appgen = require(appgenFile);
-        this.values = {"x" : "y"};
     },
 
     _selectArtifact: function(next) {
