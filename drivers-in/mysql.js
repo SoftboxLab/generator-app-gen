@@ -13,13 +13,11 @@ function query(config, callback) {
 
     connection.connect();
 
-    connection.query(config.query || 'SELECT null', function(err, rows, fields) {
+    connection.query(config.query || 'SELECT null', function(err, rows) {
         if (err) {
             callback(err, null);
             return;
         }
-
-        //console.dir(rows);
 
         callback(null, {rows: rows});
     });
