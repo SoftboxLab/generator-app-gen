@@ -15,7 +15,7 @@
   },
   "main": "index.js",
   "keywords": [
-    "yeoman-generator"
+    "yeoman-generator", "yo", "code", "generation", "generate", "template"
   ],
   "scripts": {
     "test": "mocha --reporter spec --require blanket -R mocha-lcov-reporter | ./node_modules/coveralls/bin/coveralls.js"
