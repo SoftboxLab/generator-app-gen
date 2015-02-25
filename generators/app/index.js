@@ -8,11 +8,11 @@ var merge = require('merge');
 var plugins   = {};
 var driversIn = {};
 
-function loadModules(dir, cache) {
-    var dir = path.join(__dirname, dir);
+function loadModules(moduleDir, cache) {
+    var dir = path.join(__dirname, moduleDir);
 
-    fs.readdirSync(dir).forEach(function(file) {
-        var file = dir + file;
+    fs.readdirSync(dir).forEach(function(fileName) {
+        var file = dir + fileName;
 
         if (!fs.statSync(file).isFile()) {
             return;
@@ -128,8 +128,6 @@ module.exports = generators.Base.extend({
 
     prompting: function() {
         var done = this.async();
-
-        var that = this;
 
         async.waterfall([
             this._selectArtifact.bind(this),

@@ -15,7 +15,7 @@ module.exports = {
     write: function(generator, template, out, context) {
         var tplPath = template;
 
-        if (template.indexOf('.') == 0) {
+        if (template.indexOf('.') === 0) {
             tplPath = generator.destinationRoot() + '/' + template;
         }
 
