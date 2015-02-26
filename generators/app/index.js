@@ -27,7 +27,7 @@ module.exports = generators.Base.extend({
             if (!fs.statSync(file).isFile()) {
                 return;
             }
-
+            
             var module = require(file);
 
             cache[module.name] = module;
@@ -41,7 +41,7 @@ module.exports = generators.Base.extend({
             return false;
         }
 
-        return appgenFile
+        return appgenFile;
     },
 
     _load: function() {
@@ -133,9 +133,9 @@ module.exports = generators.Base.extend({
         }
 
         if (driver.isValid && !driver.isValid(config)) {
-            this.log('The configurations supplied for driver ' + config.driver
-                    + ' (' + type + ') are invalid!'
-                    + (driver.help ? '\n\nUsage: ' + driver.help() + '\n\n': ''));
+            this.log('The configurations supplied for driver ' + config.driver +
+                    ' (' + type + ') are invalid!' + (driver.help ? '\n\nUsage: ' +
+                    driver.help() + '\n\n': ''));
             process.exit(1);
             return;
         }
