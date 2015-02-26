@@ -31,76 +31,76 @@ Run `yo app-gen` to start code generation.
 
 The `app-gen.[json|js]` file contains information about code generation for your project. In this file going to describe the configurations for artifacts code generation.
 
-The code generation is performed by two components: `plugins` and `drivers-in`.
+The artifact code generation is performed by 3 configurations: `from`, `in` and `to`.
 
-The `drivers-in` are responsibles to read the configurations for `plugins`, meanwhile `plugins` are responsible for write the artifact.
+The configuration `from` is the template source.
+The configuration `in` is the input source.
+The configuration `to` is the destination.
 
-### Plugins
+Below are the available drivers for each configuration.
 
-* [`FILE`](#plugin-file)
-* [`CONSOLE`](#plugin-console)
+### From
+* [`FILE`](#driver-from-file)
 
 
-### Drivers-in
+### In
 
 * [`JSON`](#driver-in-json)
 * [`PROMPT`](#driver-in-prompt)
 * [`MYSQL`](#driver-in-mysql)
 
+### To
+
+* [`FILE`](#plugin-file)
+* [`CONSOLE`](#plugin-console)
+
+
 ### File Structure - app-gen.json
 
+In this example, the artifact "Sample1" is getting a template from a file, reading the inputs from JSON and will write resultant text on console and in a file.
 ```js
-
 {
     "name": "Project Name",
     "artifacts": {
-        "Artifact ID - 1": {
-            "type": "FILE", # Plugin Id. eg.: FILE - required
-            "template": "./templates/sample1.js", # Template file - required
-            "out" : "./out/sample-out.js", # Outpout file name - required
-            "in": { # required
-                "driver": "JSON", # Driver-in type
-                "config": { # Driver-in configs
+        "Sample1": {
+            "from": {
+                "driver": "FILE",
+                "template": "./templates/sample-from.js"
+            },
+            "in": {
+                "driver": "JSON",
+                "config": {
                     "message": "Hello World!"
                 }
-            }
+            },
+            "to": [{
+                "driver": "CONSOLE"
+            }, {
+                "driver": "FILE",
+                "out" : "./out/sample-out.js"
+            }]
         },
-        "Artifact ID - 2": { ... },
+        "Sample2": { ... },
         ...
-        "Artifact ID - n": { ... }
+        "SampleN": { ... }
     }
 }
 
 ```
 
-## Plugins
-
-<a name="plugin-file" />
-### FILE
-Writes the rendered template at output file specified.
+## From
+<a name="driver-from-file" />
+Read a template from file.
 ```js
-{
-    "type": "FILE", # Plugin Id.
-    "template": "./templates/sample1.js", # Template file - required
-    "out" : "./out/sample-out.js", # Outpout file name - required
-    "in": { ... }
-    }
+...
+"in": {
+    "driver": "FILE",
+    "template": "template file path"
 }
+...
 ```
 
-<a name="plugin-console" />
-### CONSOLE
-Writes the rendered template at console output.
-```js
-{
-    "type": "CONSOLE", # Plugin Id.
-    "template": "./templates/sample1.js", # Template file - required
-    "in": { ... }
-    }
-}
-```
-
-## Drivers-in
+## In
 <a name="driver-in-json" />
 ### JSON
 Read the static supplied JSON config for template bindings.
@@ -108,8 +108,8 @@ Read the static supplied JSON config for template bindings.
 ```js
 ...
 "in": { # required
-    "driver": "JSON", # Driver-in type
-    "config": { # Driver-in configs
+    "driver": "JSON",
+    "config": {
         "message": "Hello World!"
     }
 }
@@ -123,10 +123,10 @@ Request configuration with prompt api (see inquirer)
 ```js
 ...
 "in": {
-    "driver": "PROMPT", # Driver-in type
+    "driver": "PROMPT",
     "config": [{
-        "message": "Supply the message", # Message
-        "name" : "message" # Config property
+        "message": "Supply the message",
+        "name" : "message"
     }]
 }
 ...
@@ -139,14 +139,35 @@ Request configuration from database.
 ```js
 ...
 "in": {
-    "driver": "MYSQL", # Driver-in type
+    "driver": "MYSQL",
     "config": {
-        "host": "localhost", # mysql host
-        "port" : "3306", # mysql port
-        "user" : "root", # user to connect
-        "password": "root", # pwd to connect
-        "query": "SELECT NULL" # query that will be executed
+        "host": "localhost",
+        "port" : "3306",
+        "user" : "root",
+        "password": "root",
+        "query": "SELECT NULL"
     }
 }
 ...
+```
+
+## To
+
+<a name="plugin-file" />
+### FILE
+Writes the rendered template at output file specified.
+```js
+{
+    "driver": "FILE",
+    "out": "path to destination file",
+}
+```
+
+<a name="plugin-console" />
+### CONSOLE
+Writes the rendered template at console output.
+```js
+{
+    "driver": "CONSOLE"
+}
 ```
