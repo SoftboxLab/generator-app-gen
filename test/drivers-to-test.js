@@ -1,7 +1,7 @@
 var assert = require("assert");
 
-var file = require("../plugins/file.js");
-var console = require("../plugins/console.js");
+var file    = require("../drivers-to/to-file.js");
+var console = require("../drivers-to/to-console.js");
 
 describe('Plugins', function() {
     describe('FILE', function() {
@@ -13,7 +13,7 @@ describe('Plugins', function() {
 
         describe('#help', function() {
             it('should return help', function() {
-                assert.equal('{ type: "FILE", template: "template file path", out: "file path to output" }', file.help());
+                assert.equal('{ type: "FILE", out: "file path to output" }', file.help());
             });
         });
 
@@ -21,23 +21,19 @@ describe('Plugins', function() {
             it('should return valid', function() {
                 assert.strictEqual(true, file.isValid({
                     out: 'xxx',
-                    template: 'yyy'
                 }));
             });
 
             it('should return invalid', function() {
                 assert.strictEqual(false, file.isValid(null));
                 assert.strictEqual(false, file.isValid({
-                    out: 'aaa'
-                }));
-                assert.strictEqual(false, file.isValid({
                     template: 'bbb'
                 }));
             });
         });
 
-        describe('#write', function() {
-            it('should match bindings on template and write the output file', function() {
+        describe('#to', function() {
+            it('should write text on output file', function() {
                 var ctxSample = {
                     key: 'value'
                 };
@@ -55,16 +51,15 @@ describe('Plugins', function() {
                     },
 
                     fs: {
-                        copyTpl: function(tpl, out, ctx) {
-                            assert.equal('/tmp/./mock/xxx', tpl);
-                            assert.equal('/out/bar', out);
-                            assert.equal(ctxSample, ctx);
+                        write: function(path, text) {
+                            assert.equal('./mock/bar', path);
+                            assert.equal('hello world!', text);
                         }
                     }
                 };
 
 
-                file.write(generatorMock, './mock/xxx', '/out/<%=foo%>', ctxSample);
+                file.to(generatorMock, 'hello world!', {out: './mock/<%=foo%>'});
             });
         });
     });
@@ -80,27 +75,18 @@ describe('Plugins', function() {
 
         describe('#help', function() {
             it('should return help', function() {
-                assert.equal('{ type: "CONSOLE", template: "template file path" }', console.help());
+                assert.equal('{ type: "CONSOLE" }', console.help());
             });
         });
 
         describe('#isValid', function() {
             it('should return valid', function() {
-                assert.strictEqual(true, console.isValid({
-                    template: 'yyy'
-                }));
-            });
-
-            it('should return invalid', function() {
-                assert.strictEqual(false, console.isValid(null));
-                assert.strictEqual(false, console.isValid({
-                    out: 'aaa'
-                }));
+                assert.strictEqual(true, console.isValid(null));
             });
         });
 
-        describe('#write', function() {
-            it('should match bindings on template and write the output file', function() {
+        describe('#to', function() {
+            it('should write text on console', function() {
                 var ctxSample = {
                     key: 'value'
                 };
@@ -126,9 +112,9 @@ describe('Plugins', function() {
                     }
                 };
 
-                console.write(generatorMock, './mock/xxx', null, ctxSample);
+                console.to(generatorMock, 'hello world!', null);
 
-                assert.equal(true, log.indexOf('value') !== -1);
+                assert.equal(true, log.indexOf('hello world') !== -1);
             });
         });
     });

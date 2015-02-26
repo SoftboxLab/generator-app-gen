@@ -4,29 +4,36 @@ var async = require('async');
 var path  = require('path');
 var chalk = require('chalk');
 var merge = require('merge');
+var _     = require('lodash');
 
-var plugins   = {};
-var driversIn = {};
-
-function loadModules(moduleDir, cache) {
-    var dir = path.join(__dirname, moduleDir);
-
-    fs.readdirSync(dir).forEach(function(fileName) {
-        var file = dir + fileName;
-
-        if (!fs.statSync(file).isFile()) {
-            return;
-        }
-
-        var module = require(file);
-
-        cache[module.name] = module;
-    });
-}
+var drivers = {
+    from: {},
+    to: {},
+    in: {}
+};
 
 var APPGEN_CONFIG = 'app-gen';
 
 module.exports = generators.Base.extend({
+    /**
+     * Load de drivers (in, to, from) modules.
+     */
+    _loadModules: function(moduleDir, cache) {
+        var dir = path.join(__dirname, moduleDir);
+
+        fs.readdirSync(dir).forEach(function(fileName) {
+            var file = dir + fileName;
+
+            if (!fs.statSync(file).isFile()) {
+                return;
+            }
+
+            var module = require(file);
+
+            cache[module.name] = module;
+        });
+    },
+
     _getAppGenFile: function(ext) {
         var appgenFile = this.destinationRoot() + '/' + APPGEN_CONFIG + ext;
 
@@ -49,6 +56,28 @@ module.exports = generators.Base.extend({
         this.appgen = require(appgenFile);
     },
 
+    _printDriver: function(driver, msg) {
+        this.log('\n' + chalk.white.bold(msg));
+
+        Object.keys(driver).forEach(function(elem) {
+            this.log('   ' + chalk.green.bold('> ' + elem));
+        }.bind(this));
+    },
+
+    initializing: function() {
+        this._loadModules('../../drivers-from/', drivers.from);
+        this._loadModules('../../drivers-in/'  , drivers.in);
+        this._loadModules('../../drivers-to/'  , drivers.to);
+
+        this.log('\n' + chalk.yellow.bold(fs.readFileSync(path.join(__dirname, '../../logo.txt'), 'utf8')));
+
+        this._printDriver(drivers.from, '## Drivers - From ##');
+        this._printDriver(drivers.in,   '## Drivers - In ##');
+        this._printDriver(drivers.to,   '## Drivers - To ##');
+
+        this._load();
+    },
+
     _selectArtifact: function(next) {
         this.log();
 
@@ -64,25 +93,17 @@ module.exports = generators.Base.extend({
         }.bind(this));
     },
 
-    _loadPlugin: function(next) {
+    _loadArtifact: function(next) {
         this.artifact = this.appgen.artifacts[this.artifactName];
 
-        this.plugin = plugins[this.artifact.type];
-
-        if (!this.plugin) {
-            this.log('The plugin "' + this.artifact.type + '" not exists or not loaded!');
+        if (!this.artifact) {
+            this.log('The artifact selected does not exists: ' + this.artifactName);
             process.exit(1);
             return;
         }
 
-        if (this.plugin.isValid && this.plugin.isValid(this.artifact) !== true) {
-            this.log('The supplied configs for artifact ' + artifactName + ' are incomplete.\n');
-            this.log('Type: ' + plugin.name + '.\n');
-
-            if (plugin.help) {
-                this.log('Usage: \n\n' + plugin.help(this) + '\n\n');
-            }
-
+        if (!this.artifact.in || !this.artifact.from || !this.artifact.to) {
+            this.log('The artifact must be compound of properties: from, in and out.');
             process.exit(1);
             return;
         }
@@ -90,55 +111,68 @@ module.exports = generators.Base.extend({
         next(null);
     },
 
-    _readInputs: function(driverIn, next) {
-        if (!driverIn) {
-            next('Driver not supplied!', null);
+    _loadDriver: function(type, cache, config) {
+        if (!config) {
+            this.log('Driver (' + type + ') configuration not supplied!');
+            process.exit(1);
             return;
         }
 
-        this.driverIn = driversIn[driverIn.driver];
-
-        if (!this.driverIn) {
-            next('Driver not found: ' + driverIn.driver, null);
+        if (!config.driver) {
+            this.log('Driver (' + type + ') name not supplied!');
+            process.exit(1);
             return;
         }
 
-        this.driverIn.read(this, driverIn.config || {}, function(err, values) {
-            this.values = merge(this.values || {} , values || {});
+        var driver = cache[config.driver];
+
+        if (!driver) {
+            this.log('Driver (' + type + ') not found: ' + config.driver);
+            process.exit(1);
+            return;
+        }
+
+        if (driver.isValid && !driver.isValid(config)) {
+            this.log('The configurations supplied for driver ' + config.driver
+                    + ' (' + type + ') are invalid!'
+                    + (driver.help ? '\n\nUsage: ' + driver.help() + '\n\n': ''));
+            process.exit(1);
+            return;
+        }
+
+        this.drivers[type] = driver;
+    },
+
+    _loadDrivers: function(next) {
+        this.drivers = {from: null, to: null, in: null};
+
+        next(null);
+    },
+
+    _getValues: function(driverIn, next) {
+        //console.dir(driverIn);
+
+        this._loadDriver('in', drivers.in, driverIn);
+
+        this.drivers.in.read(this, driverIn.config || {}, function(err, values) {
+            this.values = merge(this.values, values || {});
 
             next(null);
         }.bind(this));
     },
 
-    _loadDriver: function(next) {
+    _readInputs: function(next) {
+        this.values = {};
+
         if (this.artifact.in.constructor === Array) {
-            async.mapSeries(this.artifact.in, this._readInputs.bind(this), function(err, result) {
+            async.mapSeries(this.artifact.in, this._getValues.bind(this), function(err, result) {
                 next(null);
             });
 
             return;
         }
 
-        this._readInputs(this.artifact.in, next);
-    },
-
-    initializing: function() {
-        loadModules('../../plugins/'   , plugins);
-        loadModules('../../drivers-in/', driversIn);
-
-        this.log('\n' + chalk.yellow.bold(fs.readFileSync(path.join(__dirname, '../../logo.txt'), 'utf8')));
-
-        this.log('\n' + chalk.white.bold('## Plugins ##'));
-        Object.keys(plugins).forEach(function(elem) {
-            this.log('   ' + chalk.green.bold('> ' + elem));
-        }.bind(this));
-
-        this.log('\n' + chalk.white.bold('## In Drivers ##'));
-        Object.keys(driversIn).forEach(function(elem) {
-            this.log('   ' + chalk.cyan.bold('> ' + elem));
-        }.bind(this));
-
-        this._load();
+        this._getValues(this.artifact.in, next);
     },
 
     prompting: function() {
@@ -146,18 +180,36 @@ module.exports = generators.Base.extend({
 
         async.waterfall([
             this._selectArtifact.bind(this),
-            this._loadPlugin.bind(this),
-            this._loadDriver.bind(this)
+            this._loadArtifact.bind(this),
+            this._loadDrivers.bind(this),
+            this._readInputs.bind(this)
         ], function(err, result) {
-            //console.dir(this.values);
-
             done();
+
         }.bind(this));
+    },
+
+    _writeTo: function(text, driverTo) {
+        this._loadDriver('to', drivers.to, driverTo);
+
+        this.drivers.to.to(this, text, driverTo);
     },
 
     writing: function() {
         this.log();
 
-        this.plugin.write(this, this.artifact.template, this.artifact.out, this.values);
+        this._loadDriver('from', drivers.from, this.artifact.from);
+
+        var template = this.drivers.from.from(this, this.artifact.from);
+
+        var text = _.template(template)(this.values);
+
+        var to = this.artifact.to;
+
+        if (this.artifact.to.constructor !== Array) {
+            to = [this.artifact.to];
+        }
+
+        to.forEach(this._writeTo.bind(this, text));
     }
 });

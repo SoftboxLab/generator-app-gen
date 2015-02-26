@@ -1,7 +1,7 @@
 var assert = require("assert");
 
-var json   = require("../drivers-in/json.js");
-var prompt = require("../drivers-in/prompt.js");
+var json   = require("../drivers-in/in-json.js");
+var prompt = require("../drivers-in/in-prompt.js");
 
 var proxyquire = require('proxyquire');
 
@@ -34,7 +34,7 @@ describe('Drivers-In', function() {
         var mysql = null;
 
         before(function() {
-            mysql = proxyquire('../drivers-in/mysql', {
+            mysql = proxyquire('../drivers-in/in-mysql', {
               'mysql': {
                   createConnection: function() {
                       return {
