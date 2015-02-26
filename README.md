@@ -29,7 +29,7 @@ Run `yo app-gen` to start code generation.
 
 ## Configuration (app-gen.[json|js])
 
-The `app-gen.[json|js]` file contains information about code generation for your project. In this file going to describe the configurations for artifacts code generation.
+The `app-gen.[json|js]` file contains information about code generation for your project. In this file going to describe the configurations for artifacts code generation. This file can be a json or a JavaScript module.
 
 The artifact code generation is performed by 3 configurations: `from`, `in` and `to`.
 
@@ -55,7 +55,7 @@ Below are the available drivers for each configuration.
 * [`CONSOLE`](#plugin-console)
 
 
-### File Structure - app-gen.json
+### Configuration Structure
 
 In this example, the artifact "Sample1" is getting a template from a file, reading the inputs from JSON and will write resultant text on console and in a file.
 ```js
