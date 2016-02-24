@@ -1,6 +1,6 @@
 {
   "name": "generator-app-gen",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Code generator based on Yeoman Generators.",
   "preferGlobal": true,
   "contributors": [
@@ -15,7 +15,7 @@
   },
   "main": "index.js",
   "keywords": [
-    "yeoman-generator", "yo", "code", "generation", "generate", "template"
+    "yeoman-generator", "yo", "code", "generation", "generate", "template", "scaffold", "scaffolding"
   ],
   "scripts": {
     "test": "mocha --reporter spec --require blanket -R mocha-lcov-reporter | ./node_modules/coveralls/bin/coveralls.js"
