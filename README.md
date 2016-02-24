@@ -10,6 +10,11 @@ Customizable code generator based on Yeoman Generator.
 
 ## Usage
 
+First install de Yeoman:
+```
+npm install -g yo
+```
+
 Install `generator-app-gen`:
 ```
 npm install -g generator-app-gen
