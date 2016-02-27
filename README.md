@@ -1,4 +1,4 @@
-# generator-app-gen
+# app-gen
 [![Build Status](https://travis-ci.org/tarcisiojr/generator-app-gen.svg)](https://travis-ci.org/tarcisiojr/generator-app-gen)
 [![Coverage Status](https://coveralls.io/repos/tarcisiojr/generator-app-gen/badge.svg)](https://coveralls.io/r/tarcisiojr/generator-app-gen)
 [![npm version](https://badge.fury.io/js/generator-app-gen.svg)](http://badge.fury.io/js/generator-app-gen)
@@ -189,4 +189,45 @@ Writes the rendered template at console output.
 {
     "driver": "CONSOLE"
 }
+```
+
+# Examples
+## 1) Print at console a string from JSON template where the input is supplied by user.
+
+app-gen.json
+```
+{
+    "name": "Examples",
+    "artifacts": {
+        "Example1": {
+            "from": {
+                "driver": "JSON",
+                "template": "Hello <%=message%>"
+            },
+
+            "in": {
+                "driver": "PROMPT",
+                "config": [{
+                    "message": "Supply the message:",
+                    "name": "message"
+                }]
+            },
+
+            "to": {
+                "driver": "CONSOLE"
+            }
+        }
+    }
+}
+
+```
+
+Run app-gen and select the artifact "Example1". Will be prompted a message. If you supply "world", the output will be like this:
+```
+? Choose the artifact Example1
+? Supply the message: world
+
+------------- OUT -------------
+Hello world
+------------- END -------------
 ```
