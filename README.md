@@ -46,6 +46,7 @@ Below are the available drivers for each configuration.
 
 ### From
 * [`FILE`](#driver-from-file)
+* [`JSON`](#driver-from-json)
 
 
 ### In
@@ -95,12 +96,25 @@ In this example, the artifact "Sample1" is getting a template from a file, readi
 
 ## From
 <a name="driver-from-file" />
+### File
 Read a template from file.
 ```js
 ...
-"in": {
+"from": {
     "driver": "FILE",
-    "template": "template file path"
+    "template": "/tmeplate/path/goes/here.tmpl"
+}
+...
+```
+
+<a name="driver-from-file" />
+### JSON
+Read a template from file.
+```js
+...
+"from": {
+    "driver": "JSON",
+    template: 'template string <%=value%>'
 }
 ...
 ```
