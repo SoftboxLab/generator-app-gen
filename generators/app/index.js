@@ -206,10 +206,11 @@ module.exports = generators.Base.extend({
         }.bind(this));
     },
 
-    _writeTo: function(text, driverTo) {
+    _writeTo: function(text, driverTo, i) {
+
         this._loadDriver('to', drivers.to, driverTo);
 
-        this.drivers.to.to(this, text, driverTo);
+        this.drivers.to.to(this, text, driverTo, i);
     },
 
     writing: function() {
@@ -218,15 +219,20 @@ module.exports = generators.Base.extend({
         this._loadDriver('from', drivers.from, this.artifact.from);
 
         var template = this.drivers.from.from(this, this.artifact.from);
-
-        var text = _.template(template)(this.values);
+        var _this = this;
 
         var to = this.artifact.to;
 
         if (this.artifact.to.constructor !== Array) {
-            to = [this.artifact.to];
+           to = [this.artifact.to];
         }
 
-        to.forEach(this._writeTo.bind(this, text));
+        template.forEach(function(value, index){
+          var text = _.template(value)(_this.values);
+          var i = index;
+          to.forEach(function(v){
+            _this._writeTo(text, v, i);
+          });
+        });
     }
 });
