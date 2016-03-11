@@ -66,6 +66,9 @@ In this example, the artifact "Sample1" is getting a template from a file, readi
 ```js
 {
     "name": "Project Name",
+    "helper" : {
+    	"filter": "/helpers/filter.js"
+  	},
     "artifacts": {
         "Sample1": {
             "from": {
