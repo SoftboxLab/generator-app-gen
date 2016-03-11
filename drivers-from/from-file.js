@@ -11,11 +11,20 @@ module.exports = {
 
     from: function(generator, config) {
         var tplPath = config.template;
+        var templates = [];
 
-        if (config.template.indexOf('.') === 0) {
-            tplPath = generator.destinationRoot() + '/' + config.template;
-        }
+        if(!Array.isArray(tplPath)){
+          tplPath = [config.template];
+        };
 
-        return generator.fs.read(tplPath);
+        tplPath.forEach(function(value) {
+          if (value.indexOf('.') === 0) {
+              value = generator.destinationRoot() + '/' + value;
+          }
+
+          templates.push(generator.fs.read(value));
+        });
+
+        return templates
     }
 };
