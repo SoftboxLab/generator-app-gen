@@ -27,7 +27,7 @@ module.exports = generators.Base.extend({
             if (!fs.statSync(file).isFile()) {
                 return;
             }
-            
+
             var module = require(file);
 
             cache[module.name] = module;
@@ -93,6 +93,23 @@ module.exports = generators.Base.extend({
         }.bind(this));
     },
 
+    _loadHelpers: function (next) {
+
+        this.helper = this.appgen.helper;
+
+        var helpers = {};
+
+        for (var i in this.helper) {
+            if (this.helper.hasOwnProperty(i)) {
+                merge(helpers, {[i] : require(this.destinationRoot() + '/' + this.helper[i])});
+            }
+        }
+
+        this.values._helpers = helpers;
+
+        next(null);
+    },
+
     _loadArtifact: function(next) {
         this.artifact = this.appgen.artifacts[this.artifactName];
 
@@ -145,13 +162,10 @@ module.exports = generators.Base.extend({
 
     _loadDrivers: function(next) {
         this.drivers = {from: null, to: null, in: null};
-
         next(null);
     },
 
     _getValues: function(driverIn, next) {
-        //console.dir(driverIn);
-
         this._loadDriver('in', drivers.in, driverIn);
 
         this.drivers.in.read(this, driverIn.config || {}, function(err, values) {
@@ -162,7 +176,7 @@ module.exports = generators.Base.extend({
     },
 
     _readInputs: function(next) {
-        this.values = {};
+        //this.values = {};
 
         if (this.artifact.in.constructor === Array) {
             async.mapSeries(this.artifact.in, this._getValues.bind(this), function(err, result) {
@@ -178,7 +192,10 @@ module.exports = generators.Base.extend({
     prompting: function() {
         var done = this.async();
 
+        this.values = {};
+
         async.waterfall([
+            this._loadHelpers.bind(this),
             this._selectArtifact.bind(this),
             this._loadArtifact.bind(this),
             this._loadDrivers.bind(this),
