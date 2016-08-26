@@ -1,6 +1,6 @@
 {
   "name": "generator-app-gen",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Code generator based on Yeoman Generators.",
   "preferGlobal": true,
   "contributors": [
@@ -11,7 +11,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/tarcisiojr/generator-app-gen.git"
+    "url": "https://github.com/SoftboxLab/generator-app-gen.git"
   },
   "main": "index.js",
   "keywords": [
