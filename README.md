@@ -76,7 +76,7 @@ In this example, the artifact "Sample1" is getting a template from a file, readi
         "Sample1": {
             "from": {
                 "driver": "FILE",
-                "template": "./templates/sample-from.js"
+                "template": ["./templates/sample-from.js"]
             },
             "in": {
                 "driver": "JSON",
@@ -107,7 +107,7 @@ Read a template from file.
 ...
 "from": {
     "driver": "FILE",
-    "template": "/tmeplate/path/goes/here.tmpl"
+    "template": ["/tmeplate/path/goes/here.tmpl"]
 }
 ...
 ```
@@ -119,7 +119,7 @@ Read a template from file.
 ...
 "from": {
     "driver": "JSON",
-    template: 'template string <%=value%>'
+    template: ['template string <%=value%>']
 }
 ...
 ```
@@ -207,7 +207,7 @@ app-gen.json
         "Example1": {
             "from": {
                 "driver": "JSON",
-                "template": "Hello <%=message%>"
+                "template": ["Hello <%=message%>"]
             },
 
             "in": {
