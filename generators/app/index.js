@@ -169,6 +169,9 @@ module.exports = generators.Base.extend({
         this._loadDriver('in', drivers.in, driverIn);
 
         this.drivers.in.read(this, driverIn.config || {}, function(err, values) {
+            if (err) {
+              this.log("Error executing IN driver: ", err);
+            }
             this.values = merge(this.values, values || {});
 
             next(null);
