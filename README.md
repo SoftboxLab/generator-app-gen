@@ -56,6 +56,7 @@ Below are the available drivers for each configuration.
 * [`JSON`](#driver-in-json)
 * [`PROMPT`](#driver-in-prompt)
 * [`MYSQL`](#driver-in-mysql)
+* [`POSTGRESQL`](#driver-in-postgresql)
 
 ### To
 
@@ -169,6 +170,26 @@ Request configuration from database.
         "port" : "3306",
         "user" : "root",
         "password": "root",
+        "query": "SELECT NULL"
+    }
+}
+...
+```
+
+<a name="driver-in-postgresql" />
+### POSTGRESQL
+Request configuration from database.
+
+```js
+...
+"in": {
+    "driver": "POSTGRESQL",
+    "config": {
+        "host": "localhost",
+        "port" : 5432,
+        "database": "postgres"
+        "user" : "user",
+        "password": "password",
         "query": "SELECT NULL"
     }
 }
