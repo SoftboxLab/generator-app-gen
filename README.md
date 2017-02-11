@@ -237,7 +237,8 @@ Writes the rendered template at console output.
 ```
 
 # Examples
-## Prints a string at console from a JSON template where the input is supplied by user.
+
+Prints a string at console from a JSON template where the input is supplied by user.
 
 app-gen.json
 ```
