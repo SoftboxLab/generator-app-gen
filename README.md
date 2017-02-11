@@ -142,7 +142,7 @@ Read the static supplied JSON config for template bindings.
 ...
 ```
 <a name="driver-in-jsonfile" />
-### JSON
+### JSONFILE
 Similar to JSON, but reads the JSON of supplied files.
 
 ```js
