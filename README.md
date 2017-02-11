@@ -213,7 +213,7 @@ Request configuration from database.
 
 <a name="plugin-file" />
 ### FILE
-Writes the rendered template at output file specified.
+Writes the rendered template at supplied output file.
 ```js
 {
     "driver": "FILE",
