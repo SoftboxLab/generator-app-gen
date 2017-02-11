@@ -54,6 +54,7 @@ Below are the available drivers for each configuration.
 ### In
 
 * [`JSON`](#driver-in-json)
+* [`JSONFILE`](#driver-in-jsonfile)
 * [`PROMPT`](#driver-in-prompt)
 * [`MYSQL`](#driver-in-mysql)
 * [`POSTGRESQL`](#driver-in-postgresql)
@@ -140,6 +141,18 @@ Read the static supplied JSON config for template bindings.
 }
 ...
 ```
+<a name="driver-in-jsonfile" />
+### JSON
+Similar to JSON, but reads the JSON of supplied files.
+
+```js
+...
+"in": { # required
+    "driver": "JSONFILE",
+    "config": ["file name.json"]
+}
+...
+```
 
 <a name="driver-in-prompt" />
 ### PROMPT
@@ -204,7 +217,13 @@ Writes the rendered template at output file specified.
 ```js
 {
     "driver": "FILE",
-    "out": "path to destination file",
+    "out": ["path to destination file"],
+
+    // Optional - Replace ocurrences in file.
+    "replace" : {
+        "regex": "JS RegExp",
+        "flags": "JS RegExp flags.
+    }
 }
 ```
 
