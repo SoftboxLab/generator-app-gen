@@ -25,7 +25,8 @@
     "scaffolding"
   ],
   "scripts": {
-    "test": "mocha --reporter spec --require blanket -R mocha-lcov-reporter | ./node_modules/coveralls/bin/coveralls.js"
+    "test": "mocha --reporter spec --require blanket -R mocha-lcov-reporter",
+    "testWithCover": "mocha --reporter spec --require blanket -R mocha-lcov-reporter | ./node_modules/coveralls/bin/coveralls.js"
   },
   "author": "Tarcísio Abadio de Magalhães Júnior",
   "license": "ISC",

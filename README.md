@@ -222,7 +222,7 @@ Writes the rendered template at output file specified.
     // Optional - Replace ocurrences in file.
     "replace" : {
         "regex": "JS RegExp",
-        "flags": "JS RegExp flags.
+        "flags": "JS RegExp flags."
     }
 }
 ```
