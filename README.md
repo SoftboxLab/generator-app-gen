@@ -58,6 +58,7 @@ Below are the available drivers for each configuration.
 * [`PROMPT`](#driver-in-prompt)
 * [`MYSQL`](#driver-in-mysql)
 * [`POSTGRESQL`](#driver-in-postgresql)
+* [`JS`](#driver-in-js)
 
 ### To
 
@@ -207,6 +208,36 @@ Request configuration from database.
     }
 }
 ...
+```
+<a name="driver-in-js" />
+### JS
+Read the values from a execution of JavaScript file.
+
+```js
+...
+"in": { 
+    "driver": "JS",
+    "config": "javascrip_file_name.js"
+}
+...
+```
+JavaScript Sample:
+```js
+module.exports = function(
+    generator,  // Instance of Yo Generator
+    inValues,   // Previous IN values
+    callback    // Callback function
+    ) {
+    
+    // Your code goes here
+    var newValues = {
+        newValue: "newValue"
+    };
+
+    console.log('>>', Object.assign({}, inValues, newValues));
+    
+    callback(null, Object.assign({}, inValues, newValues));
+}
 ```
 
 ## To
