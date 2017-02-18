@@ -122,7 +122,7 @@ Read a template from file.
 ...
 "from": {
     "driver": "JSON",
-    template: ['template string <%=value%>']
+    "template": ['template string <%=value%>']
 }
 ...
 ```
