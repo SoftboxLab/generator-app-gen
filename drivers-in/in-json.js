@@ -12,6 +12,6 @@ module.exports = {
     },
 
     read: function(generator, config, callback) {
-        callback(null, config);
+        callback(null, Object.assign({}, generator.values, config));
     }
 };

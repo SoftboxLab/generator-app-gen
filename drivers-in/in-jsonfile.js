@@ -29,6 +29,6 @@ module.exports = {
             config = binds;
         }
 
-        callback(null, config);
+        callback(null, Object.assign({}, generator.values, config));
     }
 };

@@ -7,7 +7,7 @@ module.exports = {
         });
 
         generator.prompt(config, function(answers) {
-            callback(null, answers);
+            callback(null, Object.assign({}, generator.values, answers));
         });
     }
 };

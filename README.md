@@ -217,7 +217,7 @@ Read the values from a execution of JavaScript file.
 ...
 "in": { 
     "driver": "JS",
-    "config": "javascrip_file_name.js"
+    "config": { "filename" : "javascrip_file_name.js" }
 }
 ...
 ```
