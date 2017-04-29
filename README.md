@@ -103,9 +103,13 @@ In this example, the artifact "Sample1" is getting a template from a file, readi
 ```
 
 ## From
+
 <a name="driver-from-file" />
+
 ### File
+
 Read a template from file.
+
 ```js
 ...
 "from": {
@@ -116,7 +120,9 @@ Read a template from file.
 ```
 
 <a name="driver-from-file" />
+
 ### JSON
+
 Read a template from file.
 ```js
 ...
@@ -128,8 +134,11 @@ Read a template from file.
 ```
 
 ## In
+
 <a name="driver-in-json" />
+
 ### JSON
+
 Read the static supplied JSON config for template bindings.
 
 ```js
@@ -143,7 +152,9 @@ Read the static supplied JSON config for template bindings.
 ...
 ```
 <a name="driver-in-jsonfile" />
+
 ### JSONFILE
+
 Similar to JSON, but reads the JSON of supplied files.
 
 ```js
@@ -156,7 +167,9 @@ Similar to JSON, but reads the JSON of supplied files.
 ```
 
 <a name="driver-in-prompt" />
+
 ### PROMPT
+
 Request configuration with prompt api (see inquirer)
 
 ```js
@@ -172,7 +185,9 @@ Request configuration with prompt api (see inquirer)
 ```
 
 <a name="driver-in-mysql" />
+
 ### MYSQL
+
 Request configuration from database.
 
 ```js
@@ -191,7 +206,9 @@ Request configuration from database.
 ```
 
 <a name="driver-in-postgresql" />
+
 ### POSTGRESQL
+
 Request configuration from database.
 
 ```js
@@ -209,8 +226,11 @@ Request configuration from database.
 }
 ...
 ```
+
 <a name="driver-in-js" />
+
 ### JS
+
 Read the values from a execution of JavaScript file.
 
 ```js
@@ -221,7 +241,9 @@ Read the values from a execution of JavaScript file.
 }
 ...
 ```
+
 JavaScript Sample:
+
 ```js
 module.exports = function(
     generator,  // Instance of Yo Generator
@@ -243,8 +265,11 @@ module.exports = function(
 ## To
 
 <a name="plugin-file" />
+
 ### FILE
+
 Writes the rendered template at supplied output file.
+
 ```js
 {
     "driver": "FILE",
@@ -259,8 +284,11 @@ Writes the rendered template at supplied output file.
 ```
 
 <a name="plugin-console" />
+
 ### CONSOLE
+
 Writes the rendered template at console output.
+
 ```js
 {
     "driver": "CONSOLE"
@@ -272,6 +300,7 @@ Writes the rendered template at console output.
 Prints a string at console from a JSON template where the input is supplied by user.
 
 app-gen.json
+
 ```
 {
     "name": "Examples",
